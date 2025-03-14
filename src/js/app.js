@@ -29,18 +29,45 @@ function render(variables = {}) {
   let cover = `<div class="cover"><img src="${variables.background}" /></div>`;
   if (variables.includeCover == false) cover = "<div class='cover'></div>";
 
+  let socialMediaHTML = "";
+  if (variables.twitter)
+    socialMediaHTML += `<li><a href="https://twitter.com/${variables.twitter}"><i class="fab fa-twitter"></i></a></li>`;
+  if (variables.github)
+    socialMediaHTML += `<li><a href="https://github.com/${variables.github}"><i class="fab fa-github"></i></a></li>`;
+  if (variables.linkedin)
+    socialMediaHTML += `<li><a href="https://linkedin.com/in/${variables.linkedin}"><i class="fab fa-linkedin"></i></a></li>`;
+  if (variables.instagram)
+    socialMediaHTML += `<li><a href="https://instagram.com/${variables.instagram}"><i class="fab fa-instagram"></i></a></li>`;
+
+  // VALORES null
+  const name = variables.name || "Name";
+  const lastName = variables.lastName || "Last Name";
+  const role = variables.role || "Role";
+
+  let city = variables.city || "";
+  let country = variables.country || "";
+
+  // Manejo Ciudades/Paises
+
+  if (variables.city === "Miami") country = "USA";
+  else if (variables.city === "Toronto") country = "Canada";
+  else if (variables.city === "Caracas") country = "Venezuela";
+  else if (variables.city === "Munich") country = "Germany";
+
+  const location =
+    city || country
+      ? `${city}${city && country ? ", " : ""}${country}`
+      : "Location";
+
   // reset the website body with the new html output
   document.querySelector("#widget_content").innerHTML = `<div class="widget">
             ${cover}
           <img src="${variables.avatarURL}" class="photo" />
-          <h1>Lucy Boilett</h1>
-          <h2>Web Developer</h2>
-          <h3>Miami, USA</h3>
-          <ul class="position-right">
-            <li><a href="https://twitter.com/4geeksacademy"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="https://github.com/4geeksacademy"><i class="fab fa-github"></i></a></li>
-            <li><a href="https://linkedin.com/school/4geeksacademy"><i class="fab fa-linkedin"></i></a></li>
-            <li><a href="https://instagram.com/4geeksacademy"><i class="fab fa-instagram"></i></a></li>
+          <h1>${name} ${lastName}</h1>
+          <h2>${role}</h2>
+          <h3>${location}</h3>
+          <ul class="${variables.socialMediaPosition}">
+            ${socialMediaHTML}
           </ul>
         </div>
     `;
